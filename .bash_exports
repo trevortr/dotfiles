@@ -1,0 +1,20 @@
+# default text editor / pager
+export EDITOR="vim"
+export VISUAL="$EDITOR"
+export PAGER="less"
+export LESS="-FRX"
+
+# history
+export HISTSIZE=100000
+export HISTFILESIZE=250000
+export HISTCONTROL="ignoreboth:erasedups"
+export HISTTIMEFORMAT="%F %T  "
+
+# lang
+export LANG="en_US.UTF-8"
+export LC_COLLATE="C"
+
+# tooling and runtime
+export PATH="$HOME/.local/bin:$PATH"
+[[ -d "$HOME/go/bin" ]] && export PATH="$HOME/go/bin:$PATH"
+[[ -d "$HOME/.cargo/bin" ]] && export PATH="$HOME/.cargo/bin:$PATH"

@@ -1,0 +1,8 @@
+[[ -f ~/.bash_exports ]] && source ~/.bash_exports
+[[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
+
+if command -v starship &> /dev/null; then
+    eval "$(starship init bash)"
+elif [ -f "$HOME/.local/bin/starship" ]; then
+    eval "$("$HOME/.local/bin/starship" init bash)"
+fi
