@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
+DOTFILES_DIR="$HOME/.dotfiles"
+
+if [ ! -d "$DOTFILES_DIR" ]; then
+    git clone https://github.com/trevortr/dotfiles.git "$DOTFILES_DIR"
+fi
+
 link_file() {
     local src="$1"
     local dest="$2"
@@ -18,7 +24,6 @@ link_file() {
     ln -sf "$src" "$dest"
 }
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 echo "setting up dotfiles from $DOTFILES_DIR..."
 
 mkdir -p "$HOME/.local/bin"
@@ -39,6 +44,6 @@ link_file "$DOTFILES_DIR/.bash_core"    "$HOME/.bash_core"
 BASHRC="$HOME/.bashrc"
 touch "$BASHRC"
 LINE="[[ -f ~/.bash_core ]] && source ~/.bash_core"
-grep -qF "$LINE" "$BASHRC" || echo -e "\n$LINE" >> "$HOME/.bashrc"
+grep -qF "$LINE" "$BASHRC" || echo -e "\n$LINE" >> "$BASHRC"
 
 echo "finished."

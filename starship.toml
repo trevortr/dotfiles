@@ -9,17 +9,17 @@ $line_break\
 $character"""
 
 [directory]
-truncation_length = 3
+truncation_length = 8
 truncate_to_repo = true
-style = "bold cyan"
+style = "bold #5878B7"
 
 [git_branch]
 symbol = "git:"
-style = "bold purple"
+style = "bold #AF61D1"
 format = "[$symbol$branch]($style) "
 
 [git_status]
-style = "bold yellow"
+style = "bold #66BABC"
 format = '([$all_status$ahead_behind]($style) )'
 conflicted = "="
 ahead = "⇡"
@@ -33,8 +33,8 @@ deleted = "✘"
 
 [cmd_duration]
 min_time = 2_000
-format = "took [$duration](bold yellow) "
+format = "took [$duration](bold #72498D) "
 
 [character]
-success_symbol = "[➜](bold green)"
-error_symbol = "[➜](bold red)"
+success_symbol = "[➜ ](bold green)"
+error_symbol = "[➜ ](bold red)"
