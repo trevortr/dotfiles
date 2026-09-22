@@ -24,13 +24,11 @@ link_file() {
     ln -sf "$src" "$dest"
 }
 
-echo "setting up dotfiles from $DOTFILES_DIR..."
-
 mkdir -p "$HOME/.local/bin"
 mkdir -p "$HOME/.config"
 
 if ! command -v starship &> /dev/null && [ ! -f "$HOME/.local/bin/starship" ]; then
-    echo "Installing starship to ~/.local/bin..."
+    echo "installing starship to ~/.local/bin..."
     curl -fsSL https://starship.rs/install.sh | sh -s -- --bin-dir "$HOME/.local/bin" -y
 else
     echo "starship already installed"

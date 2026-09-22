@@ -25,6 +25,8 @@ alias gs='git status'
 alias ga='git add'
 alias gc='git commit'
 alias gl='git log --all --decorate --oneline --graph'
+alias gpush='git push'
+alias gpull='git pull'
 
 # misc
 alias c='clear'
