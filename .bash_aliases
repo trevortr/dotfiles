@@ -28,6 +28,23 @@ alias gl='git log --all --decorate --oneline --graph'
 alias gpush='git push'
 alias gpull='git pull'
 
+# docker
+alias d="docker"
+alias dps="docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.Image}}'"
+alias dpsa="docker ps -a --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.Image}}'"
+alias di="docker images"
+alias dvol="docker volume ls"
+alias dnet="docker network ls"
+alias dstats="docker stats --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}'"
+alias dprune="docker system prune -af --volumes"
+alias dc="docker compose"
+alias dcu="docker compose up -d"
+alias dcub="docker compose up -d --build"
+alias dcd="docker compose down"
+alias dcdv="docker compose down -v"          
+alias dcl="docker compose logs -f --tail=100"
+alias dcps="docker compose ps"
+
 # socket/interface linux-only
 case "$(uname -s)" in
     Linux)
