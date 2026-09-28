@@ -11,10 +11,17 @@ export HISTCONTROL="ignoreboth:erasedups"
 export HISTTIMEFORMAT="%F %T  "
 
 # lang
-export LANG="en_US.UTF-8"
+export LANG="${LANG:-C}"
 export LC_COLLATE="C"
 
 # tooling and runtime
-export PATH="$HOME/.local/bin:$PATH"
-[[ -d "$HOME/go/bin" ]] && export PATH="$HOME/go/bin:$PATH"
-[[ -d "$HOME/.cargo/bin" ]] && export PATH="$HOME/.cargo/bin:$PATH"
+_dotfiles_prepend_path() {
+    case ":$PATH:" in
+        *":$1:"*) ;;
+        *) export PATH="$1:$PATH" ;;
+    esac
+}
+_dotfiles_prepend_path "$HOME/.local/bin"
+[[ ! -d "$HOME/go/bin" ]] || _dotfiles_prepend_path "$HOME/go/bin"
+[[ ! -d "$HOME/.cargo/bin" ]] || _dotfiles_prepend_path "$HOME/.cargo/bin"
+unset -f _dotfiles_prepend_path

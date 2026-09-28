@@ -1,0 +1,32 @@
+mkcd() {
+  mkdir -p "$1" && cd "$1"
+}
+
+bak() {
+  for file in "$@"; do
+    cp -r "$file" "${file}.bak.$(date +%Y%m%d_%H%M%S)"
+  done
+}
+
+scratch() {
+  local dir
+  dir=$(mktemp -d /tmp/scratch.XXXXXX)
+  cd "$dir" && echo "Entered scratchpad: $dir"
+}
+
+checkport() {
+    (echo >/dev/tcp/"$1"/"$2") >/dev/null 2>&1 && echo "Port $2 is OPEN on $1" || echo "Port $2 is CLOSED on $1"
+}
+
+httptest() {
+    curl -o /dev/null -s -w "\
+HTTP Code: %{http_code}\n\
+DNS Lookup: %{time_namelookup}s\n\
+Connect:    %{time_connect}s\n\
+TLS Handshake: %{time_appconnect}s\n\
+Total Time: %{time_total}s\n" "$1"
+}
+
+digq() {
+    dig +nocmd "$1" "${2:-A}" +noall +answer
+}
