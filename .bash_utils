@@ -1,8 +1,16 @@
 mkcd() {
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: mkcd <directory>" >&2
+    return 2
+  fi
   mkdir -p "$1" && cd "$1"
 }
 
 bak() {
+  if [ "$#" -lt 1 ]; then
+    echo "Usage: bak <file> [file ...]" >&2
+    return 2
+  fi
   for file in "$@"; do
     cp -r "$file" "${file}.bak.$(date +%Y%m%d_%H%M%S)"
   done
@@ -15,10 +23,18 @@ scratch() {
 }
 
 checkport() {
+    if [ "$#" -ne 2 ]; then
+        echo "Usage: checkport <host> <port>" >&2
+        return 2
+    fi
     (echo >/dev/tcp/"$1"/"$2") >/dev/null 2>&1 && echo "Port $2 is open on $1" || echo "Port $2 is closed on $1"
 }
 
 httptest() {
+    if [ "$#" -ne 1 ]; then
+        echo "Usage: httptest <url>" >&2
+        return 2
+    fi
     curl -o /dev/null -s -w "\
 HTTP Code: %{http_code}\n\
 DNS Lookup: %{time_namelookup}s\n\
@@ -28,32 +44,36 @@ Total Time: %{time_total}s\n" "$1"
 }
 
 digq() {
+    if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+        echo "Usage: digq <name> [record_type]" >&2
+        return 2
+    fi
     dig +nocmd "$1" "${2:-A}" +noall +answer
 }
 
 # docker
 
 dsh() {
-  if [ -z "$1" ]; then
-    echo "Usage: dsh <container_name_or_id>"
-    return 1
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: dsh <container_name_or_id>" >&2
+    return 2
   fi
   docker exec -it "$1" /bin/bash 2>/dev/null || docker exec -it "$1" /bin/sh
 }
 
 dlog() {
-  if [ -z "$1" ]; then
-    echo "Usage: dlog <container_name_or_id> [tail_lines]"
-    return 1
+  if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+    echo "Usage: dlog <container_name_or_id> [tail_lines]" >&2
+    return 2
   fi
   local lines="${2:-100}"
   docker logs -f --tail="$lines" "$1"
 }
 
 dip() {
-  if [ -z "$1" ]; then
-    echo "Usage: dip <container_name_or_id>"
-    return 1
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: dip <container_name_or_id>" >&2
+    return 2
   fi
   docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$1"
 }

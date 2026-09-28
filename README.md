@@ -1,20 +1,18 @@
 # Dotfiles
 
-run this configuration for Linux and macOS in bash:
+Bash configuration for Linux and macOS.
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/trevortr/dotfiles/main/install.sh)"
 source ~/.bashrc
 ```
 
-update existing install:
+Update with:
 
 ```bash
 git -C ~/.dotfiles pull && bash ~/.dotfiles/install.sh && source ~/.bashrc
 ```
 
-after local edits:
+For local changes, just `source ~/.bashrc`.
 
-```bash
-source ~/.bashrc
-```
+Put machine-specific configuration in `~/.bashrc.local`.

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Use the checkout containing this script, including checkouts outside ~/.dotfiles.
 if [ -n "${BASH_SOURCE[0]:-}" ] && [ -f "${BASH_SOURCE[0]}" ]; then
     DOTFILES_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 else
@@ -57,13 +56,13 @@ link_file "$DOTFILES_DIR/.bash_exports" "$HOME/.bash_exports"
 link_file "$DOTFILES_DIR/.bash_aliases" "$HOME/.bash_aliases"
 link_file "$DOTFILES_DIR/.bash_core"    "$HOME/.bash_core"
 link_file "$DOTFILES_DIR/.bash_utils"    "$HOME/.bash_utils"
+link_file "$DOTFILES_DIR/.bashrc"         "$HOME/.bashrc"
 
-BASHRC="$HOME/.bashrc"
-touch "$BASHRC"
-LINE="[[ -f ~/.bash_core ]] && source ~/.bash_core"
-grep -qxF "$LINE" "$BASHRC" || printf '\n%s\n' "$LINE" >> "$BASHRC"
+login_file_sources_bashrc() {
+    grep -Ev '^[[:space:]]*(#|$)' "$1" |
+        grep -Eq '(^|[[:space:];|&])(\.|source)[[:space:]]+[^#;]*[.]bashrc'
+}
 
-# Bash reads only the first existing login file in this order.
 LOGIN_FILE="$HOME/.bash_profile"
 for candidate in "$HOME/.bash_profile" "$HOME/.bash_login" "$HOME/.profile"; do
     if [ -f "$candidate" ]; then
@@ -73,6 +72,8 @@ for candidate in "$HOME/.bash_profile" "$HOME/.bash_login" "$HOME/.profile"; do
 done
 touch "$LOGIN_FILE"
 LOGIN_LINE='if [ -n "${BASH_VERSION:-}" ]; then case $- in *i*) [ ! -f "$HOME/.bashrc" ] || . "$HOME/.bashrc" ;; esac; fi'
-grep -qxF "$LOGIN_LINE" "$LOGIN_FILE" || printf '\n%s\n' "$LOGIN_LINE" >> "$LOGIN_FILE"
+if ! login_file_sources_bashrc "$LOGIN_FILE"; then
+    printf '\n%s\n' "$LOGIN_LINE" >> "$LOGIN_FILE"
+fi
 
 echo "finished."
