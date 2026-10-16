@@ -1,0 +1,7 @@
+.headers on 
+.mode box --wrap 40
+.nullvalue NULL
+.timer on 
+
+-- takes main prompt, continuation prompt
+.prompt "sqlite> " "   ...> "

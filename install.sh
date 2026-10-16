@@ -55,8 +55,9 @@ link_file "$DOTFILES_DIR/starship.toml" "$CONFIG_DIR/starship.toml"
 link_file "$DOTFILES_DIR/.bash_exports" "$HOME/.bash_exports"
 link_file "$DOTFILES_DIR/.bash_aliases" "$HOME/.bash_aliases"
 link_file "$DOTFILES_DIR/.bash_core"    "$HOME/.bash_core"
-link_file "$DOTFILES_DIR/.bash_utils"    "$HOME/.bash_utils"
-link_file "$DOTFILES_DIR/.bashrc"         "$HOME/.bashrc"
+link_file "$DOTFILES_DIR/.bash_utils"   "$HOME/.bash_utils"
+link_file "$DOTFILES_DIR/.bashrc"       "$HOME/.bashrc"
+link_file "$DOTFILES_DIR/.sqliterc"     "$HOME/.sqliterc"
 
 login_file_sources_bashrc() {
     grep -Ev '^[[:space:]]*(#|$)' "$1" |
